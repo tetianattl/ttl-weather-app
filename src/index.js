@@ -28,7 +28,7 @@ function formatDate(date) {
     "Wednesday",
     "Thursday",
     "Friday",
-    "Saturday",
+    "Saturday"
   ];
   let day = days[date.getDay()];
   if (minutes < 10) {
@@ -53,7 +53,32 @@ function handleSearchSubmit(event) {
   searchCity(searchInput.value);
 }
 
+function displayForecast () {
+  let daysForecast = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  let forecastHtml = "";
+
+  daysForecast.forEach(function(day) {
+    forecastHtml =
+      forecastHtml +
+      `
+      <div class="row">
+        <div class="col-2">
+          <div class="weather-forecast-date">${day}</div>
+          <img src="http://shecodes-assets.s3.amazonaws.com/api/weather/icons/clear-sky-day.png" alt="" width="48" />
+          <div class="weather-forecast-temperature">
+            <span class="weather-forecast-temperature-maximum">18° </span><span class="weather-forecast-temperature-minimum">12°</span>
+          </div>
+        </div>
+      </div>
+    `;
+  });
+
+  let forecastElement = document.querySelector("#forecast");
+  forecastElement.innerHTML = forecastHtml;
+}
+
 let searchFormElement = document.querySelector("#search-form");
 searchFormElement.addEventListener("submit", handleSearchSubmit);
 
 searchCity("Kyiv");
+displayForecast();
