@@ -15,7 +15,7 @@ function refreshWeather(response) {
   let iconElement = document.querySelector("#icon");
   iconElement.innerHTML = `<img src=${response.data.condition.icon_url} class="weather-app-icon" />`;
 
-  console.log(response.data);
+  getForecast(response.data.city);
 }
 
 function formatDate(date) {
@@ -28,7 +28,7 @@ function formatDate(date) {
     "Wednesday",
     "Thursday",
     "Friday",
-    "Saturday"
+    "Saturday",
   ];
   let day = days[date.getDay()];
   if (minutes < 10) {
@@ -46,6 +46,12 @@ function searchCity(city) {
   axios.get(apiUrl).then(refreshWeather);
 }
 
+function getForecast(city) {
+  let apiKey = "t17c0095349275cb66f3b415a17oa3da";
+  let apiUrl = `https://api.shecodes.io/weather/v1/forecast?query=${city}&key=${apiKey}&units=metric`;
+  axios.get(apiUrl).then(displayForecast);
+}
+
 function handleSearchSubmit(event) {
   event.preventDefault();
   let searchInput = document.querySelector("#search-form-input");
@@ -53,11 +59,12 @@ function handleSearchSubmit(event) {
   searchCity(searchInput.value);
 }
 
-function displayForecast () {
+function displayForecast(response) {
+  console.log(response.data);
   let daysForecast = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
   let forecastHtml = "";
 
-  daysForecast.forEach(function(day) {
+  daysForecast.forEach(function (day) {
     forecastHtml =
       forecastHtml +
       `
@@ -81,4 +88,3 @@ let searchFormElement = document.querySelector("#search-form");
 searchFormElement.addEventListener("submit", handleSearchSubmit);
 
 searchCity("Kyiv");
-displayForecast();
