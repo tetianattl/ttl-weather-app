@@ -2,7 +2,9 @@ function refreshWeather(response) {
   let temperatureElement = document.querySelector("#temperature");
   temperatureElement.innerHTML = Math.round(response.data.temperature.current);
   let cityElement = document.querySelector("#city");
-  cityElement.innerHTML = `${response.data.city}, ${response.data.country}`;
+  cityElement.innerHTML = `${response.data.city}`;
+  let countryElement = document.querySelector("#country");
+  countryElement.innerHTML = `${response.data.country}`;
   let descriptionElement = document.querySelector("#description");
   descriptionElement.innerHTML = response.data.condition.description;
   let humidityElement = document.querySelector("#humidity");
@@ -66,7 +68,6 @@ function formatDay(timestamp) {
 }
 
 function displayForecast(response) {
-  console.log(response.data);
   let forecastHtml = "";
 
   response.data.daily.forEach(function (day, index) {
@@ -76,9 +77,12 @@ function displayForecast(response) {
         `
       <div class="weather-forecast-day">
         <div class="weather-forecast-date">${formatDay(day.time)}</div>
+        <div class="weather-forecast-description">${
+          day.condition.description
+        }</div>
         <img src="${day.condition.icon_url}" class="weather-forecast-icon" />
         <div class="weather-forecast-temperatures">
-          <div class="weather-forecast-temperature">
+          <div class="weather-forecast-temperature-maximum">
           <strong>${Math.round(day.temperature.maximum)}°</strong> 
           </div>
           <div class="weather-forecast-temperature">${Math.round(
